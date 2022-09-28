@@ -12,7 +12,7 @@ const stateDefault = {
 
     ],
     selectedSV: null,
-    searchmangSV: []
+    searchSV: null,
     
 
 }
@@ -43,17 +43,16 @@ export const BTform = (state = stateDefault, { type, payload }) => {
         case 'SEARCH_SV': {
             let index = state.mangSV.findIndex((item) => item.maSV === payload )
             console.log(index)
-            let searchmangSV = [...state.searchmangSV]
+            
             if (index === -1) {
-                searchmangSV = []
+                state.searchSV = null
             }
             else {
-                let searchedSV = state.searchedSV
-                searchedSV = state.mangSV[index]
-                searchmangSV.push(searchedSV)
-            }
+                
+                state.searchSV = state.mangSV[index]
             
-            return {...state, searchmangSV: searchmangSV}
+            }
+            return {...state}
         }
         
 

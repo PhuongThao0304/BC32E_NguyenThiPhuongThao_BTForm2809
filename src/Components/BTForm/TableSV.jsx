@@ -22,7 +22,7 @@ class TableSV extends Component {
     render() {
         console.log(this.props)
         console.log(this.state)
-        const { mangSV,searchSV,searchmangSV } = this.props
+        const { mangSV,searchSV } = this.props
         return (
             <div>
                 {/* filtering */}
@@ -62,7 +62,7 @@ class TableSV extends Component {
                     {
                             mangSV.map((SV) => {
                                 return (
-                                    <tr style={{display:`${!searchSV? '' : 'none'}`}}  className='text-left' key={SV.maSV}>
+                                    <tr style={{display: `${searchSV? 'none' : ''}`}} className='text-left' key={SV.maSV}>
                                         
                                     <td>{SV.maSV}</td>
                                     <td>{SV.hoTen}</td>
@@ -82,24 +82,28 @@ class TableSV extends Component {
                        
                        
                       
-                        {
-                            searchmangSV.map((SV) => {
-                                return (
-                                    <tr className='text-left' key={SV.maSV}>
-                                        <td>{SV.maSV}</td>
-                                        <td>{SV.hoTen}</td>
-                                        <td>{SV.soDT}</td>
-                                        <td>{SV.email}</td>
-                                        <td> <button className='btn btn-danger mr-4' onClick={() => {
-                                            this.props.dispatch(deleteSV(SV.maSV))
-                                        }}>DELETE</button>
-                                            <button className='btn btn-warning' onClick={() => {
-                                                this.props.dispatch(editSV(SV.maSV))
-                                            }}>EDIT</button> </td>
-                                    </tr>
-                                )
-                            })
+                        { searchSV? (
+                              <tr className='text-left' key={searchSV.maSV}>
+                              <td>{searchSV.maSV}</td>
+                              <td>{searchSV.hoTen}</td>
+                              <td>{searchSV.soDT}</td>
+                              <td>{searchSV.email}</td>
+                              <td> <button className='btn btn-danger mr-4' onClick={() => {
+                                  this.props.dispatch(deleteSV(searchSV.maSV))
+                              }}>DELETE</button>
+                                  <button className='btn btn-warning' onClick={() => {
+                                      this.props.dispatch(editSV(searchSV.maSV))
+                                  }}>EDIT</button> </td>
+                          </tr>
+                        ) : (<div></div>)
+
+  
+
                         }
+                            
+                                
+                            
+                        
                     </tbody>
 
                   
