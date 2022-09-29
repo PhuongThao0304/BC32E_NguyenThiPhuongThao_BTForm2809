@@ -100,9 +100,9 @@ static getDerivedStateFromProps = (nextProps, currentState) => {
 
 
     render() {
-        console.log(this.props.selectedSV)
-        console.log(this.state.sinhVien)
-        console.log(this.stateDefault)
+        // console.log(this.props.selectedSV)
+        // console.log(this.state.sinhVien)
+        // console.log(this.stateDefault)
         const { maSV,hoTen,soDT,email } = this.state.sinhVien
         return (
             <form noValidate onSubmit={this.handleSubmit}>

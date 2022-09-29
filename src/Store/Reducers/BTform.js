@@ -1,4 +1,4 @@
-import { ADD_SV, DELETE_SV, EDIT_SV, UPDATE_SV } from "../types/types"
+import { ADD_SV, DELETE_SV, EDIT_SV, SEARCH_SV, UPDATE_SV } from "../types/types"
 
 const stateDefault = {
 
@@ -12,7 +12,8 @@ const stateDefault = {
 
     ],
     selectedSV: null,
-    searchSV: null,
+    searchedSV: null,
+    unfoundMess: '',
     
 
 }
@@ -40,16 +41,18 @@ export const BTform = (state = stateDefault, { type, payload }) => {
             state.selectedSV = null
             return {...state, mangSV: updatedmangSV}
         }
-        case 'SEARCH_SV': {
+        case SEARCH_SV: {
             let index = state.mangSV.findIndex((item) => item.maSV === payload )
             console.log(index)
             
             if (index === -1) {
-                state.searchSV = null
+                state.searchedSV = null
+                state.unfoundMess = 'Không tìm thấy sinh viên tương ứng'
             }
             else {
                 
-                state.searchSV = state.mangSV[index]
+                state.searchedSV = state.mangSV[index]
+                state.unfoundMess = ''
             
             }
             return {...state}

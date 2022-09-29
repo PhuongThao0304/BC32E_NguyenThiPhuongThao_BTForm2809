@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteSV, editSV } from '../../Store/actions/actions'
+import { deleteSV, editSV,searchSV } from '../../Store/actions/actions'
 
 
 class TableSV extends Component {
     state = {
         searchedmaSV: '',
+        mangSV: []
 
     }
 
     handleInput = (event) => {
-        const {value} = event.target
+        const { value } = event.target
 
         this.setState({
             searchedmaSV: value
@@ -18,23 +19,27 @@ class TableSV extends Component {
 
     }
 
-    
+    // static getDerivedStateFromProps = (nextProps, currentState) => {
+
+    //     currentState.mangSV = nextProps.mangSV
+    //     console.log(currentState, nextProps)
+    //     return currentState
+    // }
+
+
     render() {
         console.log(this.props)
         console.log(this.state)
-        const { mangSV,searchSV } = this.props
+        const { mangSV, searchedSV, unfoundMess } = this.props
         return (
             <div>
                 {/* filtering */}
                 <div>
                     <p style={{ color: 'green', fontWeight: 'bold' }}  >Tìm kiếm theo mã sinh viên </p>
                     <div className='text-left'>
-                        <input style={{ width: '80%', padding: '5px', marginBottom: '20px' }} type="text" placeholder='Nhập vào mã sinh viên muốn tìm' onChange={this.handleInput} /> 
+                        <input style={{ width: '80%', padding: '5px', marginBottom: '20px' }} type="text" placeholder='Nhập vào mã sinh viên muốn tìm' onChange={this.handleInput} />
                         <button className='btn btn-primary ml-0' onClick={() => {
-                            this.props.dispatch({
-                                type: 'SEARCH_SV',
-                                payload: this.state.searchedmaSV
-                            })
+                            this.props.dispatch(searchSV(this.state.searchedmaSV))
                         }}> Tìm </button>
                     </div>
 
@@ -44,7 +49,11 @@ class TableSV extends Component {
 
                     {/* table */}
                 </div>
+
+
+
                 <table className='table'>
+                   
                     <thead className='thead-dark'>
                         <tr className='w-100'>
                             <th scope='col' className='text-left'>Mã SV</th>
@@ -57,12 +66,18 @@ class TableSV extends Component {
                         </tr>
 
                     </thead>
+                    <>
+                    <div style={{ marginTop: '20px', marginBlockEnd: '20px' }}>
+                    <span className='align-center' style={{ color: 'red' }} > {unfoundMess} </span>
+    
+                </div>
+                </>
                     <tbody>
-                        
-                    {
+
+                        {
                             mangSV.map((SV) => {
                                 return (
-                                    <tr style={{display: `${searchSV? 'none' : ''}`}} className='text-left' key={SV.maSV}>
+                                    <tr style={{display: `${searchedSV || (!searchedSV && this.state.searchedmaSV !=='')? 'none' : ''}`}} className='text-left' key={SV.maSV}>
                                         
                                     <td>{SV.maSV}</td>
                                     <td>{SV.hoTen}</td>
@@ -80,41 +95,34 @@ class TableSV extends Component {
                             })
                         }
                        
-                       
-                      
-                        { searchSV? (
-                              <tr className='text-left' key={searchSV.maSV}>
-                              <td>{searchSV.maSV}</td>
-                              <td>{searchSV.hoTen}</td>
-                              <td>{searchSV.soDT}</td>
-                              <td>{searchSV.email}</td>
-                              <td> <button className='btn btn-danger mr-4' onClick={() => {
-                                  this.props.dispatch(deleteSV(searchSV.maSV))
-                              }}>DELETE</button>
-                                  <button className='btn btn-warning' onClick={() => {
-                                      this.props.dispatch(editSV(searchSV.maSV))
-                                  }}>EDIT</button> </td>
-                          </tr>
-                        ) : (<div></div>)
 
-  
 
-                        }
-                            
-                                
-                            
+                        {searchedSV?
+                             (<tr className='text-left' key={searchedSV.maSV}>
+                                    <td>{searchedSV.maSV}</td>
+                                    <td>{searchedSV.hoTen}</td>
+                                    <td>{searchedSV.soDT}</td>
+                                    <td>{searchedSV.email}</td>
+                                    <td> <button className='btn btn-danger mr-4' onClick={() => {
+                                        this.props.dispatch(deleteSV(searchedSV.maSV))
+                                    }}>DELETE</button>
+                                        <button className='btn btn-warning' onClick={() => {
+                                            this.props.dispatch(editSV(searchedSV.maSV))
+                                        }}>EDIT</button> </td>
+                                </tr>
+                            ): <></>}
                         
+
+
+
+
                     </tbody>
-
-                  
                 </table>
+               
 
-               
-                        {/* <div style={{marginTop: '20px', marginBlockEnd:'20px'}}>
-                        <span className='align-center' style={{color: 'red', display:`${this.props.searhc}` }} > Không có kết quả </span>
-                        </div> */}
-                    
-               
+
+
+
             </div>
         )
     }
