@@ -42,16 +42,8 @@ class TableSV extends Component {
                             this.props.dispatch(searchSV(this.state.searchedmaSV))
                         }}> Tìm </button>
                     </div>
-
-
-
-
-
                     {/* table */}
                 </div>
-
-
-
                 <table className='table'>
                    
                     <thead className='thead-dark'>
@@ -66,18 +58,38 @@ class TableSV extends Component {
                         </tr>
 
                     </thead>
-                    <>
-                    <div style={{ marginTop: '20px', marginBlockEnd: '20px' }}>
-                    <span className='align-center' style={{ color: 'red' }} > {unfoundMess} </span>
-    
-                </div>
-                </>
+                    
                     <tbody>
 
-                        {
+                        {/* {
                             mangSV.map((SV) => {
                                 return (
-                                    <tr style={{display: `${searchedSV || (!searchedSV && this.state.searchedmaSV !=='')? 'none' : ''}`}} className='text-left' key={SV.maSV}>
+                                    <tr style={{display: `${(this.state.searchedmaSV !=='')? 'none' : ''}`}} className='text-left' key={SV.maSV}>
+                                        
+                                    <td>{SV.maSV}</td>
+                                    <td>{SV.hoTen}</td>
+                                    <td>{SV.soDT}</td>
+                                    <td>{SV.email}</td>
+                                    <td> <button className='btn btn-danger mr-4' onClick={() => {
+                                        this.props.dispatch(deleteSV(SV.maSV))
+                                    }}>DELETE</button>
+                                        <button className='btn btn-warning' onClick={() => {
+                                            this.props.dispatch(editSV(SV.maSV))
+                                        }}>EDIT</button> </td>
+                                </tr>
+                                   
+                                )
+                            })
+                        } */}
+                       
+
+
+                        {(!searchedSV || this.state.searchedmaSV ==='')?
+                             (<>
+                             {
+                            mangSV.map((SV) => {
+                                return (
+                                    <tr style={{display: `${(this.state.searchedmaSV !=='')? 'none' : ''}`}} className='text-left' key={SV.maSV}>
                                         
                                     <td>{SV.maSV}</td>
                                     <td>{SV.hoTen}</td>
@@ -94,11 +106,9 @@ class TableSV extends Component {
                                 )
                             })
                         }
-                       
-
-
-                        {searchedSV?
-                             (<tr className='text-left' key={searchedSV.maSV}>
+                             </>
+                            ): <>
+                            <tr className='text-left' key={searchedSV.maSV}>
                                     <td>{searchedSV.maSV}</td>
                                     <td>{searchedSV.hoTen}</td>
                                     <td>{searchedSV.soDT}</td>
@@ -110,7 +120,8 @@ class TableSV extends Component {
                                             this.props.dispatch(editSV(searchedSV.maSV))
                                         }}>EDIT</button> </td>
                                 </tr>
-                            ): <></>}
+                            
+                            </>}
                         
 
 
@@ -118,7 +129,12 @@ class TableSV extends Component {
 
                     </tbody>
                 </table>
-               
+                <>
+                    <div style={{ marginTop: '20px', marginBlockEnd: '20px' }}>
+                    <span className='align-center' style={{ color: 'red' }} > {unfoundMess} </span>
+    
+                </div>
+                </>
 
 
 
